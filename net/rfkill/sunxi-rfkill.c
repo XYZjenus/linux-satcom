@@ -46,6 +46,7 @@ static __inline int mmc_pm_get_io_val(char* name) {return -1;}
 static DEFINE_SPINLOCK(bt_power_lock);
 static const char bt_name[] = "bcm4329";
 static struct rfkill *sw_rfkill;
+
 static int rfkill_set_power(void *data, bool blocked)
 {
     unsigned int mod_sel = mmc_pm_get_mod_type();

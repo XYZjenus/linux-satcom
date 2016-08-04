@@ -614,6 +614,7 @@ static int axp_battery_adc_set(struct axp_charger *charger)
   case 8: val |= 3 << 6;break;
   default: break;
   }
+
   ret = axp_write(charger->master, AXP20_ADC_CONTROL3, val);
   if (ret)
     return ret;
@@ -1167,18 +1168,18 @@ static void axp_charging_monitor(struct work_struct *work)
         }
         else if((((v[1] >> 7) == 0) || (((v[1] >> 3) & 0x1) == 0)) && count_rdc < 3){
         	DBG_PSY_MSG("==============================%d\n",__LINE__);
-            count_rdc ++;  
+            count_rdc ++;
         }
         else{
             DBG_PSY_MSG("==============================%d\n",__LINE__);
-            count_rdc = 0; 
+            count_rdc = 0;
         }
     }
     else{
         count_rdc = 0;
-     	DBG_PSY_MSG("==============================%d\n",__LINE__);   
+     	DBG_PSY_MSG("==============================%d\n",__LINE__);
     }
-    
+
 	if(flag_state_change){
     	rt_rest_vol = charger->rest_vol;
     	rest_vol = charger->rest_vol;
@@ -1245,8 +1246,6 @@ static void axp_charging_monitor(struct work_struct *work)
     	if(charger->is_on && rest_vol == 100){
         rest_vol = 99;
     	}
-
-
 			if(rest_vol > pre_rest_vol){
 				if(counter >= 3){
 					charger->rest_vol ++;
@@ -1289,8 +1288,8 @@ static void axp_charging_monitor(struct work_struct *work)
 			count_dis++;
 		} else
 			count_dis = 0;
-			
-		
+
+
 #if  DBG_AXP_PSY
  		DBG_PSY_MSG("charger->ic_temp = %d\n",charger->ic_temp);
  		DBG_PSY_MSG("charger->vbat = %d\n",charger->vbat);
@@ -1581,10 +1580,21 @@ static int axp_battery_probe(struct platform_device *pdev)
      printk("[AXP]pmu_suspendpwroff_vol = %d\n",pmu_suspendpwroff_vol);
   }
   pmu_suspendpwroff_vol = pmu_suspendpwroff_vol * 1000;
-	
+
 	if(pmu_suspendpwroff_vol >= 2867200 && pmu_suspendpwroff_vol <= 4200000){
-		val = (pmu_suspendpwroff_vol - 2867200) / 5600;	
+		val = (pmu_suspendpwroff_vol - 2867200) / 5600;
 	}
+
+  var = axp_write(charger->master,AXP20_BUCHARGE_CONTROL,0xC3);
+  if(var)
+  {
+    printk("[AXP-20] set the default battery output failed\n");
+  }
+  else
+  {
+    printk("[AXP-20] set the default battery output OK !\n");
+  }
+
 
   /* 3.5552V--%5 close*/
   axp_write(charger->master, AXP20_APS_WARNING1,val);
@@ -1712,7 +1722,7 @@ static int axp_battery_probe(struct platform_device *pdev)
 	val |= pmu_intotp_en << 2;
 	axp_write(charger->master,POWER20_HOTOVER_CTL,val);
 	DBG_PSY_MSG("%d-->0x%x\n",__LINE__,val);
-	
+
 	/* disable */
   axp_set_bits(charger->master,AXP20_CAP,0x80);
   axp_clr_bits(charger->master,0xBA,0x80);
@@ -1886,7 +1896,7 @@ static int axp20_suspend(struct platform_device *dev, pm_message_t state)
 
 		axp_write(charger->master, POWER20_COULOMB_CTL, tmp);
 
-		
+
     return 0;
 }
 
@@ -1967,7 +1977,7 @@ static int axp20_resume(struct platform_device *dev)
         }
         power_supply_changed(&charger->batt);
     }
-	
+
 	axp_read(charger->master, 0x0e,&val);
 	printk("[AXP]=======================val = 0x%x\n",val);
 	if(val){
@@ -2001,7 +2011,7 @@ static void axp20_shutdown(struct platform_device *dev)
 {
     uint8_t tmp;
     struct axp_charger *charger = platform_get_drvdata(dev);
-    
+
     cancel_delayed_work_sync(&charger->work);
   	axp_clr_bits(charger->master,AXP20_CAP,0x80);
 

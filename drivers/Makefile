@@ -125,6 +125,8 @@ obj-y				+= platform/
 obj-y				+= ieee802154/
 #common clk code
 obj-y				+= clk/
+obj-$(CONFIG_PM_DEVFREQ)	+= devfreq/
+obj-$(CONFIG_SATDEV_CTRL)	+= satdevctrl/hym8563/
 
 obj-$(CONFIG_HWSPINLOCK)	+= hwspinlock/
 obj-$(CONFIG_NFC)		+= nfc/
@@ -135,5 +137,3 @@ obj-$(CONFIG_RPMSG)		+= rpmsg/
 # Virtualization drivers
 obj-$(CONFIG_VIRT_DRIVERS)	+= virt/
 obj-$(CONFIG_HYPERV)		+= hv/
-
-obj-$(CONFIG_PM_DEVFREQ)	+= devfreq/

@@ -218,15 +218,15 @@ struct i2c_driver {
  * managing the device.
  */
 struct i2c_client {
-	unsigned short flags;		/* div., see below		*/
-	unsigned short addr;		/* chip address - NOTE: 7bit	*/
-					/* addresses are stored in the	*/
-					/* _LOWER_ 7 bits		*/
+	unsigned short flags;		    /* div., see below		*/
+	unsigned short addr;		    /* chip address - NOTE: 7bit	*/
+					                /* addresses are stored in the	*/
+					                /* _LOWER_ 7 bits		*/
 	char name[I2C_NAME_SIZE];
 	struct i2c_adapter *adapter;	/* the adapter we sit on	*/
-	struct i2c_driver *driver;	/* and our access routines	*/
-	struct device dev;		/* the device structure		*/
-	int irq;			/* irq issued by device		*/
+	struct i2c_driver *driver;	    /* and our access routines	*/
+	struct device dev;		        /* the device structure		*/
+	int irq;			             /* irq issued by device		*/
 	struct list_head detected;
 };
 #define to_i2c_client(d) container_of(d, struct i2c_client, dev)

@@ -53,5 +53,4 @@ config SUNXI_RFKILL
 	bool "Winner's GPIO RFKILL driver"
 	depends on RFKILL
 	depends on PLAT_SUNXI
-	default y
-
+	default n

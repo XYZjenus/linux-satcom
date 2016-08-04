@@ -1274,7 +1274,7 @@ struct platform_device sunxi_twi1_device = {
 static struct sunxi_i2c_platform_data sunxi_twi2_pdata[] = {
 	{
 		.bus_num   = 2,
-	    	.frequency = I2C2_TRANSFER_SPEED,
+	    .frequency = I2C2_TRANSFER_SPEED,
 	},
 };
 
@@ -1304,7 +1304,7 @@ struct platform_device sunxi_twi2_device = {
 static struct sunxi_i2c_platform_data sunxi_twi3_pdata[] = {
 	{
 		.bus_num   = 3,
-    		.frequency = I2C3_TRANSFER_SPEED,
+    	.frequency = I2C3_TRANSFER_SPEED,
 	},
 };
 
@@ -1334,7 +1334,7 @@ struct platform_device sunxi_twi3_device = {
 static struct sunxi_i2c_platform_data sunxi_twi4_pdata[] = {
 	{
 		.bus_num   = 4,
-    		.frequency = I2C4_TRANSFER_SPEED,
+    	.frequency = I2C4_TRANSFER_SPEED,
 	},
 };
 
